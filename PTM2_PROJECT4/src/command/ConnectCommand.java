@@ -1,36 +1,56 @@
-package command;
+package commands;
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ConnectCommand implements Command {
 
-	static Socket clientSocket;
-	String[] c;
-	String ip;
-	int port;
-	static PrintWriter out;
-
-	
-	public ConnectCommand(String[] command) {
-		this.c = command;
-		this.ip = this.c[0];
-		this.port = Integer.parseInt(c[1]);
-	//	System.out.println("---connect---");
-		execute();
-	}
+public class ConnectCommand implements Command ,Observer{
+	public static volatile boolean stop=false;
+	public static PrintWriter out;
 	@Override
-	public double execute() {
-		try {
-			
-			clientSocket = new Socket(c[0], Integer.parseInt(c[1]));
-			out = new PrintWriter(clientSocket.getOutputStream());
-			//System.out.println("Client is connected to a remote Server.");
-			
-		} catch (NumberFormatException | IOException e) { e.printStackTrace(); }
-		
-		return 0;
+	public void update(Observable o, Object arg) {
+		if(arg.getClass()==String.class) {
+			out.println("set " + o.toString() + " " + arg);
+			out.flush();
+			System.out.println("set " + o.toString() + " " + arg);
+		}
+	}
+
+	@Override
+	public void executeCommand(String[] array) {
+		stop=false;
+		new Thread(()->{
+			try {
+				Socket socket= null;
+				try {
+					synchronized (OpenDataServer.wait) {
+						OpenDataServer.wait.wait();
+					}
+					Thread.sleep(10000);
+					socket = new Socket(array[1], Integer.parseInt(array[2]));
+					out=new PrintWriter(socket.getOutputStream());
+					while(!stop){
+
+
+					}
+
+					out.close();
+					socket.close();
+
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}).start();
+
+
 	}
 
 }

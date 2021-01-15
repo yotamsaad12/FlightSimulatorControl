@@ -1,4 +1,4 @@
-package command.expression;
+package expressions;
 
 public interface Expression {
 	public double calculate();

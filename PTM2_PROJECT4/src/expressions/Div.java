@@ -1,15 +1,14 @@
-package command.expression;
+package expressions;
 
 public class Div extends BinaryExpression {
 
-	// constructor
 	public Div(Expression left, Expression right) {
 		super(left, right);
 	}
 
 	@Override
-	// method 
 	public double calculate() {
-		return left.calculate()/right.calculate();	
+		return left.calculate()/right.calculate();
 	}
+
 }

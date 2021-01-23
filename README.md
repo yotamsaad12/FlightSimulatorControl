@@ -1,6 +1,6 @@
 # Flight Simulator Control 
 
-[![Presentation Project](/uml/example.png)]
+
 
 During the study towards the B.sc. in Computer science one of the programming courses was Advanced software Development.
 As a product of this course we developt a flight semulator program with emphasis on programming principles such as SOLID and GRASP,MVVM architecture, 

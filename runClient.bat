@@ -1,1 +1,1 @@
- java -jar ""C:\Users\avivg\workspaceFx\FlightSimulatorControl_test\Client.jar""
+ java -jar "".\Client.jar""
